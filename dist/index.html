@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <div class="mainContainer">
+        <form class="newTodo">
+            <fieldset class="todoInputContainer">
+                <legend><h3>New todo entry:</h3></legend>
+                <input type="text" id="todoTitle" name="title" placeholder="Title:" required>
+                <textarea id="todoDescription" name="description" placeholder="Description:"></textarea>
+                <input type="datetime-local" id="todoDate" name="datetime">
+                <fieldset class="priorityRadioContainer">
+                    <div>
+                        <label for="priorityRadio1">Priority:</label>
+                        <input type="radio" id="priorityRadio1" class="radio" name="priorityRadio">
+                    </div>
+                    <div>
+                        <label for="priorityRadio2">Priority:</label>
+                        <input type="radio" id="priorityRadio2" class="radio" name="priorityRadio">
+                    </div>
+                    <div>
+                        <label for="priorityRadio3">Priority:</label>
+                        <input type="radio" id="priorityRadio3" class="radio" name="priorityRadio">
+                    </div>
+                    
+                </fieldset>
+                <button class="submitButton" type="button">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
