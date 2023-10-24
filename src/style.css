@@ -265,11 +265,12 @@ textarea{
     0%{
         transform: rotateX(90deg);
         
-        grid-row: initial;
+        
         height: 100%;
         visibility: hidden;
     }
     5%{
+        grid-row: initial;
         visibility: hidden;
     }
     6%{
