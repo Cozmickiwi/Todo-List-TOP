@@ -224,6 +224,7 @@ textarea{
     animation-duration: .7s;
     animation-iteration-count: 1;
     animation-direction: reverse;
+    display: none;
 }
 
 @keyframes mainFlip {
@@ -258,7 +259,7 @@ textarea{
     100%{
         height: 95%;
         grid-row: initial;
-        
+        display: flex;
     }
 }
 @keyframes mainFlipRev {
@@ -272,6 +273,7 @@ textarea{
     5%{
         grid-row: initial;
         visibility: hidden;
+        display: none;
     }
     6%{
         visibility: visible;
