@@ -64,7 +64,7 @@ export function component() {
                     todoEntryPreview.classList.toggle('previewTran');
                     console.log(event.target.id);
                     setTimeout(() => {
-                        root.style.setProperty('--margin-amount', `-${(Number(event.target.id) - 1) * 10}%`);
+                        root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 10}% - ${5*Number(event.target.id)-1}px)`);
                         todoEntryPreview.style.display = 'none';
                         todoEntryContainer.classList.toggle('mainTran');
                         todoEntryContainer.style.display = 'flex';
@@ -76,12 +76,16 @@ export function component() {
                     setTimeout(() => {
                         todoEntryContainer.style.top = 0;
                         todoEntryContainer.style.marginTop = ('8px');
+                        
                     }, 700)
                     
                 })
                 todoEntryContainer.addEventListener('click', () => {
+                    todoEntryContainer.classList.toggle('mainTran');
+                    todoEntryPreview.classList.toggle('previewTran');
                     todoEntryContainer.style.display = 'none';
                     todoEntryContainer.style.backdropFilter = 'none';
+                    todoEntryPreview.style.display = 'flex';
                 })
                 deleteButton.addEventListener('click', () => {
                     todoEntryPreview.style.display = 'none';
