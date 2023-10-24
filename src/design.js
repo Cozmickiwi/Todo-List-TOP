@@ -49,8 +49,17 @@ export function component() {
                 todoEntryPreview.appendChild(deleteButton);
                 todoItemContainer.appendChild(todoEntryPreview);
                 todoEntryContainer.className = 'todoMain';
+                let todoMainTitle = document.createElement('h3');
+                todoMainTitle.textContent = 'Title:';
+                let todoMainDescription = document.createElement('h3');
+                todoMainDescription.textContent = 'Description:'
+                let todoMainDate = document.createElement('h3');
+                todoMainDate.textContent = 'Date/Time:'
+                todoEntryContainer.appendChild(todoMainTitle);
                 todoEntryContainer.appendChild(todoEntryTitleMain);
+                todoEntryContainer.appendChild(todoMainDescription);
                 todoEntryContainer.appendChild(todoEntryDescriptionMain);
+                todoEntryContainer.appendChild(todoMainDate);
                 todoEntryContainer.appendChild(todoEntryDateMain);
                 todoItemContainer.appendChild(todoEntryContainer)
                 todoEntryContainer.style.display = 'none';

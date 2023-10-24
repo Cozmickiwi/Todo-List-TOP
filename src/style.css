@@ -38,14 +38,17 @@ body {
     display: flex;
     margin-top: 20px;
     z-index: 1;
-    
+    font-family: Arial, Helvetica, sans-serif;
     justify-self: center;
     min-width: 0;
     overflow: hidden;
+    align-items: center;
 }
 
 .todoPreview > p {
     margin-right: 40px;
+    position: relative;
+    left: 20px;
 }
 
 .button {
@@ -66,6 +69,7 @@ body {
     position: absolute;
     right: 80px;
     margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .todoMain {
@@ -83,7 +87,8 @@ body {
     overflow: hidden;
     border: 2px solid;
     border-radius: 10px;
-    box-shadow: 2px 2px black;
+    box-shadow: 3px 2px black;
+    font-family: Arial, Helvetica, sans-serif;
     /*
     top: 0; 
     bottom: 0; 
@@ -95,6 +100,14 @@ body {
 
 .todoMain > p {
     margin: 0;
+    position: relative;
+    left: 30px;
+}
+
+.todoMain > h3 {
+    position: relative;
+    left: 30px;
+    border-bottom: 2px solid;
 }
 
 legend {
