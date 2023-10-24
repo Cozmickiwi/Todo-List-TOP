@@ -94,7 +94,7 @@ export function component() {
                         todoEntryContainer.classList.toggle('mainTranRev');
                         todoEntryPreview.classList.toggle('previewTranRev');
                         
-                    }, 700)
+                    }, 699)
                     setTimeout(() => {
                         todoEntryPreview.classList.toggle('previewTranRev');
                     }, 1050)
