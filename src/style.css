@@ -216,7 +216,7 @@ textarea{
         margin-top: calc(var(--margin-amount));
         position: relative;
     }
-    51%{
+    50.01%{
         
         position: absolute;
         height: 55px;
