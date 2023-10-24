@@ -72,11 +72,11 @@ export function component() {
                         todoEntryContainer.style.gridRow = 1
                         todoEntryContainer.style.top = `${10*(ticker-2)}%`;
                         todoEntryContainer.style.marginTop = `-${10*(ticker-2)}%`;
-                    }, 200)
+                    }, 350)
                     setTimeout(() => {
                         todoEntryContainer.style.top = 0;
                         todoEntryContainer.style.marginTop = ('20px');
-                    }, 400)
+                    }, 700)
                     
                 })
                 todoEntryContainer.addEventListener('click', () => {

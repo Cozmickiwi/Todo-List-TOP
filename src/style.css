@@ -179,7 +179,7 @@ textarea{
 
 .previewTran {
     animation-name: previewFlip;
-    animation-duration: .2s;
+    animation-duration: .35s;
     animation-iteration-count: 1;
 }
 
@@ -194,7 +194,7 @@ textarea{
 
 .mainTran {
     animation-name: mainFlip;
-    animation-duration: .4s;
+    animation-duration: .7s;
     animation-iteration-count: 1;
     position: absolute;
     height: 95%;
