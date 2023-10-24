@@ -70,12 +70,12 @@ export function component() {
                         todoEntryContainer.style.display = 'flex';
                         todoEntryContainer.style.backdropFilter = 'blur(10px)';
                         todoEntryContainer.style.gridRow = 1
-                        todoEntryContainer.style.top = `${10*(ticker-2)}%`;
-                        todoEntryContainer.style.marginTop = `-${10*(ticker-2)}%`;
+                        //todoEntryContainer.style.top = `${10*(ticker-2)}%`;
+                        //todoEntryContainer.style.marginTop = `-${10*(ticker-2)}%`;
                     }, 350)
                     setTimeout(() => {
                         todoEntryContainer.style.top = 0;
-                        todoEntryContainer.style.marginTop = ('20px');
+                        todoEntryContainer.style.marginTop = ('8px');
                     }, 700)
                     
                 })
