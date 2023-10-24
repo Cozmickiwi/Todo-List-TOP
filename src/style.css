@@ -271,12 +271,13 @@ textarea{
     40%{
         
     }
+    
     50%{
         transform: rotateX(0deg);
         margin-top: calc(var(--margin-amount));
         position: relative;
     }
-    50.001%{
+    50.00001%{
         
         position: absolute;
         height: 30px;
@@ -284,9 +285,7 @@ textarea{
         margin-top: 8px;
         
     }
-    52%{
-        
-    }
+    
     75%{
         
         
