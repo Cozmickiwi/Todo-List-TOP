@@ -65,7 +65,7 @@ export function component() {
                     console.log(event.target.id);
                     setTimeout(() => {
                         //root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 10}% - ${2*(Number(event.target.id)-1)}px) + (${10 - (4*(Number(event.target.id)-1))}px)`);
-                        root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 10}% + ${2.5*(Number(event.target.id)-1)}px`);
+                        root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 13}vh + ${5/(Number(event.target.id)-1)}px)`);
                         console.log(root.style)
                         todoEntryPreview.style.display = 'none';
                         todoEntryContainer.classList.toggle('mainTran');
