@@ -91,12 +91,13 @@ export function component() {
                         todoEntryContainer.style.display = 'none';
                         todoEntryContainer.style.backdropFilter = 'none';
                         todoEntryPreview.style.display = 'flex';
-                        todoEntryContainer.classList.toggle('mainTranRev');
+                        
                         todoEntryPreview.classList.toggle('previewTranRev');
                         
                     }, 699)
                     setTimeout(() => {
                         todoEntryPreview.classList.toggle('previewTranRev');
+                        todoEntryContainer.classList.toggle('mainTranRev');
                     }, 1050)
                     
                 })
