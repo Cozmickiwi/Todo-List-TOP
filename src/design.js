@@ -84,10 +84,21 @@ export function component() {
                 })
                 todoEntryContainer.addEventListener('click', () => {
                     todoEntryContainer.classList.toggle('mainTran');
+                    todoEntryContainer.classList.toggle('mainTranRev');
                     todoEntryPreview.classList.toggle('previewTran');
-                    todoEntryContainer.style.display = 'none';
-                    todoEntryContainer.style.backdropFilter = 'none';
-                    todoEntryPreview.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        todoEntryContainer.style.display = 'none';
+                        todoEntryContainer.style.backdropFilter = 'none';
+                        todoEntryPreview.style.display = 'flex';
+                        todoEntryContainer.classList.toggle('mainTranRev');
+                        todoEntryPreview.classList.toggle('previewTranRev');
+                        
+                    }, 700)
+                    setTimeout(() => {
+                        todoEntryPreview.classList.toggle('previewTranRev');
+                    }, 1050)
+                    
                 })
                 deleteButton.addEventListener('click', () => {
                     todoEntryPreview.style.display = 'none';
