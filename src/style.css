@@ -267,11 +267,12 @@ textarea{
         
         grid-row: initial;
         height: 100%;
-    }
-    1%{
         visibility: hidden;
     }
-    1.1%{
+    5%{
+        visibility: hidden;
+    }
+    6%{
         visibility: visible;
     }
     40%{
