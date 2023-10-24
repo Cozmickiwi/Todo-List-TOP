@@ -1,6 +1,8 @@
+import { format, compareAsc } from 'date-fns';
 import { newNote } from './index.js';
 import { createTodo } from './index.js';
 import './style.css';
+const root = document.documentElement;
 export function component() {
     let ticker = 1;
     const mainContainer = document.querySelector('.mainContainer');
@@ -40,21 +42,42 @@ export function component() {
                 todoEntryTitleMain.textContent = todoListing.title;
                 todoEntryTitleMain.className = 'todoEntryTitle';
                 todoEntryDescriptionMain.textContent = todoListing.description;
+                todoEntryDateMain.textContent = todoListing.date;
                 todoEntryDate.textContent = todoListing.date;
                 todoEntryPreview.appendChild(todoEntryTitle);
                 todoEntryPreview.appendChild(todoEntryDate);
                 todoEntryPreview.appendChild(deleteButton);
                 todoItemContainer.appendChild(todoEntryPreview);
-                
                 todoEntryContainer.className = 'todoMain';
                 todoEntryContainer.appendChild(todoEntryTitleMain);
                 todoEntryContainer.appendChild(todoEntryDescriptionMain);
                 todoEntryContainer.appendChild(todoEntryDateMain);
                 todoItemContainer.appendChild(todoEntryContainer)
                 todoEntryContainer.style.display = 'none';
-                todoEntryPreview.addEventListener('click', () => {
-                    todoEntryContainer.style.display = 'flex';
-                    todoEntryContainer.style.backdropFilter = 'blur(10px)';
+                todoEntryContainer.style.gridRow = ticker;
+                todoEntryContainer.style.gridColumn = 1;
+                todoEntryPreview.style.gridColumn = 1;
+                todoEntryPreview.style.gridRow = ticker;
+                todoEntryPreview.id = ticker;
+                ticker ++;
+                todoEntryPreview.addEventListener('click', event => {
+                    todoEntryPreview.classList.toggle('previewTran');
+                    console.log(event.target.id);
+                    setTimeout(() => {
+                        root.style.setProperty('--margin-amount', `-${(Number(event.target.id) - 1) * 10}%`);
+                        todoEntryPreview.style.display = 'none';
+                        todoEntryContainer.classList.toggle('mainTran');
+                        todoEntryContainer.style.display = 'flex';
+                        todoEntryContainer.style.backdropFilter = 'blur(10px)';
+                        todoEntryContainer.style.gridRow = 1
+                        todoEntryContainer.style.top = `${10*(ticker-2)}%`;
+                        todoEntryContainer.style.marginTop = `-${10*(ticker-2)}%`;
+                    }, 200)
+                    setTimeout(() => {
+                        todoEntryContainer.style.top = 0;
+                        todoEntryContainer.style.marginTop = ('20px');
+                    }, 400)
+                    
                 })
                 todoEntryContainer.addEventListener('click', () => {
                     todoEntryContainer.style.display = 'none';
