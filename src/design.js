@@ -201,7 +201,7 @@ export function component() {
                         todoEntryContainer.style.gridRow = 1
                         //todoEntryContainer.style.top = `${10*(ticker-2)}%`;
                         //todoEntryContainer.style.marginTop = `-${10*(ticker-2)}%`;
-                    }, 350)
+                    }, 340)
                     setTimeout(() => {
                         todoEntryContainer.style.top = 0;
                         todoEntryContainer.style.marginTop = ('8px');
