@@ -1,10 +1,18 @@
 import { format, compareAsc } from 'date-fns';
 import { newNote } from './index.js';
 import { createTodo } from './index.js';
+import { todoDateObj } from './index.js';
+import { dateSort } from './index.js';
 import './style.css';
 const root = document.documentElement;
 export function component() {
     let ticker = 1;
+    let todoListArr = [];
+    let todoListDateObjArr = [];
+    let currentEl;
+    let fullDateStr;
+    let unForDate;
+    let dateFormatRegex = /[^T:-]/g;
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -28,6 +36,7 @@ export function component() {
                 document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
                 document.querySelector('.sortMenu').classList.toggle('sortMenuCloseTran');
                 sortArrow.classList.toggle('arrowRotate');
+                dateSort(todoListDateObjArr);
             });
             return(sort);
         }
@@ -102,7 +111,6 @@ export function component() {
             menu.appendChild(sortMenu());
         }
         menuAppend();
-        
     }
     menuItems();
     todoItemContainer.className = 'todoItemContainer';
@@ -180,53 +188,61 @@ export function component() {
                 todoEntryContainer.style.gridRow = ticker;
                 todoEntryContainer.style.gridColumn = 2;
                 todoEntryPreview.style.gridColumn = 2;
-                todoEntryPreview.style.gridRow = ticker;
-                todoEntryPreview.id = ticker;
+                todoEntryPreview.id = Number(ticker);
+                todoEntryPreview.style.gridRow = todoEntryPreview.id;
+                todoListArr[ticker-1] = ticker;
+                console.log(todoListArr);
+                currentEl = document.getElementById(ticker);
+                unForDate = (currentEl.querySelector('.todoEntryDate').textContent);
+                console.log(unForDate);
+                function dateFormat(filteredDate) {
+                    if (filteredDate) {
+                        let filteredStr = filteredDate.join('');
+                        console.log(filteredStr);
+                        return(filteredStr)
+                    }
+                    else {
+                        console.log('no date');
+                    }
+                }
+                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, dateFormat(unForDate.match(dateFormatRegex)));
+                todoListDateObjArr[ticker-1] = Object[`tododateObj${ticker}`];
+                console.log(todoListDateObjArr);
                 ticker ++;
                 todoEntryPreview.addEventListener('click', event => {
-                    console.log(document.getElementById(1).querySelector('.todoEntryDate').textContent);
                     todoEntryPreview.classList.toggle('previewTran');
                     console.log(event.target.id);
                     setTimeout(() => {
-                        //root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 10}% - ${2*(Number(event.target.id)-1)}px) + (${10 - (4*(Number(event.target.id)-1))}px)`);
-                        root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 13}vh + ${(6.5/(Number(event.target.id)-1)+10)}px)`);
                         if (event.target.id == 1){
                             root.style.setProperty('--margin-amount', '20px');
                         }
-                        console.log(root.style)
+                        else {
+                            root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 13}vh + ${(6.5/(Number(event.target.id)-1)+10)}px)`);
+                        }
                         todoEntryPreview.style.display = 'none';
                         todoEntryContainer.classList.toggle('mainTran');
                         todoEntryContainer.style.display = 'flex';
-                        todoEntryContainer.style.backdropFilter = 'blur(10px)';
-                        todoEntryContainer.style.gridRow = 1
-                        //todoEntryContainer.style.top = `${10*(ticker-2)}%`;
-                        //todoEntryContainer.style.marginTop = `-${10*(ticker-2)}%`;
-                    }, 340)
+                        todoEntryContainer.style.gridRow = 1;
+                    }, 340);
                     setTimeout(() => {
                         todoEntryContainer.style.top = 0;
                         todoEntryContainer.style.marginTop = ('8px');
                         
-                    }, 700)
-                    
-                })
+                    }, 700);
+                });
                 todoEntryContainer.addEventListener('click', () => {
                     todoEntryContainer.classList.toggle('mainTran');
                     todoEntryContainer.classList.toggle('mainTranRev');
                     todoEntryPreview.classList.toggle('previewTran');
-                    
                     setTimeout(() => {
                         todoEntryContainer.style.display = 'none';
-                        todoEntryContainer.style.backdropFilter = 'none';
                         todoEntryPreview.style.display = 'flex';
-                        
                         todoEntryPreview.classList.toggle('previewTranRev');
-                        
-                    }, 690)
+                    }, 690);
                     setTimeout(() => {
                         todoEntryPreview.classList.toggle('previewTranRev');
                         todoEntryContainer.classList.toggle('mainTranRev');
-                    }, 1050)
-                    
+                    }, 1050);
                 })
                 deleteButton.addEventListener('click', () => {
                     todoEntryPreview.style.display = 'none';
@@ -242,8 +258,6 @@ export function component() {
         })
     }
     todoForm();
-    
-
     function button(){
         const newNoteButton = document.createElement('button');
         newNoteButton.className = 'button';
@@ -262,12 +276,9 @@ export function component() {
         })
         return(newNoteButton);
     }
-    
     function docAppend(){
         mainContainer.appendChild(button());
-        
     }
     docAppend();
-
     return(mainContainer);
 }

@@ -347,9 +347,6 @@ textarea{
         grid-row: initial;
         
     }
-    40%{
-        
-    }
     50%{
         transform: rotateX(0deg);
         margin-top: calc(var(--margin-amount));
@@ -361,9 +358,6 @@ textarea{
         height: 55px;
         grid-row: initial;
         margin-top: 8px;
-    }
-    52%{
-        
     }
     75%{
         
@@ -391,10 +385,6 @@ textarea{
     6%{
         visibility: visible;
     }
-    40%{
-        
-    }
-    
     50%{
         transform: rotateX(0deg);
         margin-top: calc(var(--margin-amount));
@@ -406,11 +396,6 @@ textarea{
         height: 30px;
         grid-row: initial;
         margin-top: 8px;
-        
-    }
-    
-    75%{
-        
         
     }
     100%{
