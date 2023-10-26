@@ -3,7 +3,10 @@ import { newNote } from './index.js';
 import { createTodo } from './index.js';
 import { todoDateObj } from './index.js';
 import { dateSort } from './index.js';
+import { todoDelete } from './index.js';
 import './style.css';
+import CloseIcon from './images/close-circle-svgrepo-com1.png';
+import MoreIcon from './images/more-horizontal-circle-svgrepo-com.png'
 const root = document.documentElement;
 export function component() {
     let ticker = 1;
@@ -23,6 +26,7 @@ export function component() {
     function menuItems(){
         function sort(){
             const sort = document.createElement('div');
+            
             sort.id = 'sort';
             sort.className = 'menuItem';
             const sortText = document.createElement('h4');
@@ -32,12 +36,27 @@ export function component() {
             sortArrow.textContent = '>';
             sort.appendChild(sortText);
             sort.appendChild(sortArrow);
+            let sortMenuOpen = false;
             sort.addEventListener('click', () => {
-                document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
-                document.querySelector('.sortMenu').classList.toggle('sortMenuCloseTran');
-                sortArrow.classList.toggle('arrowRotate');
-                dateSort(todoListDateObjArr);
+                if(sortMenuOpen == false) {
+                    document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
+                    document.querySelector('.sortMenu').classList.toggle('sortMenuCloseTran');
+                    sortArrow.classList.toggle('arrowRotate');
+                    sortMenuOpen = true;
+                }
             });
+            setTimeout(() => {
+                document.getElementById('sortDateButton').addEventListener('click', () => {
+                    dateSort(todoListDateObjArr);
+                })
+                document.getElementById('sortMenuExit').addEventListener('click', () => {
+                    document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
+                    document.querySelector('.sortMenu').classList.toggle('sortMenuCloseTran');
+                    sortArrow.classList.toggle('arrowRotate');
+                    sortMenuOpen = false;
+                })
+            }, 100);
+            
             return(sort);
         }
         function home(){
@@ -98,6 +117,14 @@ export function component() {
             sortMenu = document.createElement('div');
             sortMenu.className = 'sortMenu';
             sortMenu.classList.add('sortMenuCloseTran');
+            let sortDate = document.createElement('button');
+            sortDate.id = 'sortDateButton';
+            sortDate.textContent = 'Date';
+            let exitButton = new Image();
+            exitButton.src = CloseIcon;
+            exitButton.id = ('sortMenuExit');
+            sortMenu.appendChild(sortDate);
+            sortMenu.appendChild(exitButton);
             return(sortMenu);
         }
         function menuAppend () {
@@ -166,9 +193,16 @@ export function component() {
                 todoEntryDescriptionMain.textContent = todoListing.description;
                 todoEntryDateMain.textContent = todoListing.date;
                 todoEntryDate.textContent = todoListing.date;
+                const todoClose = new Image();
+                const todoMore = new Image();
+                todoClose.src = CloseIcon;
+                todoMore.src = MoreIcon;
+                todoClose.id = 'todoClose';
+                todoMore.id = 'todoMore';
                 todoEntryPreview.appendChild(todoEntryTitle);
                 todoEntryPreview.appendChild(todoEntryDate);
-                todoEntryPreview.appendChild(deleteButton);
+                todoEntryPreview.appendChild(todoMore);
+                todoEntryPreview.appendChild(todoClose);
                 todoItemContainer.appendChild(todoEntryPreview);
                 todoEntryContainer.className = 'todoMain';
                 let todoMainTitle = document.createElement('h3');
@@ -209,15 +243,14 @@ export function component() {
                 todoListDateObjArr[ticker-1] = Object[`tododateObj${ticker}`];
                 console.log(todoListDateObjArr);
                 ticker ++;
-                todoEntryPreview.addEventListener('click', event => {
+                todoMore.addEventListener('mouseup', () => {
                     todoEntryPreview.classList.toggle('previewTran');
-                    console.log(event.target.id);
                     setTimeout(() => {
-                        if (event.target.id == 1){
+                        if (todoEntryPreview.id == 1){
                             root.style.setProperty('--margin-amount', '20px');
                         }
                         else {
-                            root.style.setProperty('--margin-amount', `calc(-${(Number(event.target.id) - 1) * 13}vh + ${(6.5/(Number(event.target.id)-1)+10)}px)`);
+                            root.style.setProperty('--margin-amount', `calc(-${(Number(todoEntryPreview.id) - 1) * 13}vh + ${(6.5/(Number(todoEntryPreview.id)-1)+10)}px)`);
                         }
                         todoEntryPreview.style.display = 'none';
                         todoEntryContainer.classList.toggle('mainTran');
@@ -236,7 +269,7 @@ export function component() {
                     todoEntryPreview.classList.toggle('previewTran');
                     setTimeout(() => {
                         todoEntryContainer.style.display = 'none';
-                        todoEntryPreview.style.display = 'flex';
+                        todoEntryPreview.style.display = 'grid';
                         todoEntryPreview.classList.toggle('previewTranRev');
                     }, 690);
                     setTimeout(() => {
@@ -244,8 +277,9 @@ export function component() {
                         todoEntryContainer.classList.toggle('mainTranRev');
                     }, 1050);
                 })
-                deleteButton.addEventListener('click', () => {
-                    todoEntryPreview.style.display = 'none';
+                todoClose.addEventListener('click', () => {
+                    console.log(todoListArr);
+                    todoDelete(Number(todoEntryPreview.id));
                 })
                 function formReset(){
                     titleInput.value = null;
