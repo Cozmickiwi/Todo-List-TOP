@@ -252,8 +252,10 @@ export function component() {
                         console.log('no date');
                     }
                 }
+                //dateFormat(unForDate.match(dateFormatRegex))
+                const setDate = new Date(unForDate);
                 const date = new Date(); 
-                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, dateFormat(unForDate.match(dateFormatRegex)), date.getTime());
+                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime());
                 todoListDateObjArr[ticker-1] = Object[`tododateObj${ticker}`];
                 console.log(todoListDateObjArr);
                 ticker ++;
