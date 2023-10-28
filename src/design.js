@@ -17,6 +17,7 @@ export function component() {
     let fullDateStr;
     let unForDate;
     let dateFormatRegex = /[^T:-]/g;
+    let unsort = true;
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -49,7 +50,17 @@ export function component() {
             setTimeout(() => {
                 document.getElementById('sortDateButton').addEventListener('click', () => {
                     currentlySorted = true;
-                    todoListDateObjArr = dateSort(todoListDateObjArr);
+                    if(unsort == true){
+                        unsort = false;
+                        document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
+                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+                    }
+                    else if(unsort == false){
+                        unsort = true;
+                        document.getElementById('sortDateButton').style.backgroundColor = '#ffa07a';
+                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+                        currentlySorted = false;
+                    }
                 })
                 document.getElementById('sortMenuExit').addEventListener('click', () => {
                     document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
@@ -241,7 +252,8 @@ export function component() {
                         console.log('no date');
                     }
                 }
-                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, dateFormat(unForDate.match(dateFormatRegex)));
+                const date = new Date(); 
+                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, dateFormat(unForDate.match(dateFormatRegex)), date.getTime());
                 todoListDateObjArr[ticker-1] = Object[`tododateObj${ticker}`];
                 console.log(todoListDateObjArr);
                 ticker ++;
@@ -290,9 +302,9 @@ export function component() {
                     dateInput.value = null;
                 }
                 formReset();
-                if(currentlySorted == true){
-                    todoListDateObjArr = dateSort(todoListDateObjArr);
-                }
+                
+                todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+                
                 return(todoEntryPreview);
             }
         })

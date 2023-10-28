@@ -16,17 +16,18 @@ export function createTodo(title, description, date, priority){
         priority: priority,
     }
 }
-export function todoDateObj(id, prevId, fullDate){
+export function todoDateObj(id, prevId, fullDate, currentDate){
     return {
         id: id,
         prevId: prevId,
         fullDate: fullDate,
+        currentDate: currentDate,
     }
 }
 let sortedArr;
 let sortedArr2;
 
-export function dateSort(arr){
+export function dateSort(arr, unsort){
     sortedArr = [];
     if (arr.length > 0){
         for(let i=0;i<arr.length;i++){
@@ -35,14 +36,27 @@ export function dateSort(arr){
             }
             else{
                 for(let x=0;x<sortedArr.length;x++){
-                    if(arr[i].fullDate<=sortedArr[x].fullDate){
-                        sortedArr.splice(x, 0, arr[i]);
-                        break;
+                    if(unsort == false){
+                        if(arr[i].fullDate<=sortedArr[x].fullDate){
+                            sortedArr.splice(x, 0, arr[i]);
+                            break;
                     }
-                    else if(arr[i].fullDate>(sortedArr[sortedArr.length-1].fullDate)){
-                        sortedArr.push(arr[i]);
-                        break;
+                        else if(arr[i].fullDate>(sortedArr[sortedArr.length-1].fullDate)){
+                            sortedArr.push(arr[i]);
+                            break;
                     }
+                    }
+                    else if(unsort == true){
+                        if(arr[i].currentDate<=sortedArr[x].currentDate){
+                            sortedArr.splice(x, 0, arr[i]);
+                            break;
+                    }
+                        else if(arr[i].currentDate>(sortedArr[sortedArr.length-1].currentDate)){
+                            sortedArr.push(arr[i]);
+                            break;
+                    }
+                    }
+                    
                 }
             }
         }
