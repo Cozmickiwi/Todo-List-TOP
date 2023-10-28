@@ -9,6 +9,7 @@ import CloseIcon from './images/close-circle-svgrepo-com1.png';
 import MoreIcon from './images/more-horizontal-circle-svgrepo-com.png'
 const root = document.documentElement;
 export function component() {
+    let currentlySorted = false;
     let ticker = 1;
     let todoListArr = [];
     let todoListDateObjArr = [];
@@ -47,7 +48,8 @@ export function component() {
             });
             setTimeout(() => {
                 document.getElementById('sortDateButton').addEventListener('click', () => {
-                    dateSort(todoListDateObjArr);
+                    currentlySorted = true;
+                    todoListDateObjArr = dateSort(todoListDateObjArr);
                 })
                 document.getElementById('sortMenuExit').addEventListener('click', () => {
                     document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
@@ -278,8 +280,9 @@ export function component() {
                     }, 1050);
                 })
                 todoClose.addEventListener('click', () => {
+                    ticker--
                     console.log(todoListArr);
-                    todoDelete(Number(todoEntryPreview.id));
+                    todoDelete(Number(todoEntryPreview.id), todoListDateObjArr);
                 })
                 function formReset(){
                     titleInput.value = null;
@@ -287,6 +290,9 @@ export function component() {
                     dateInput.value = null;
                 }
                 formReset();
+                if(currentlySorted == true){
+                    todoListDateObjArr = dateSort(todoListDateObjArr);
+                }
                 return(todoEntryPreview);
             }
         })

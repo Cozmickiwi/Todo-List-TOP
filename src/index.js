@@ -23,11 +23,11 @@ export function todoDateObj(id, prevId, fullDate){
         fullDate: fullDate,
     }
 }
-
+let sortedArr;
 let sortedArr2;
 
 export function dateSort(arr){
-    let sortedArr = [];
+    sortedArr = [];
     if (arr.length > 0){
         for(let i=0;i<arr.length;i++){
             if(sortedArr.length == 0){
@@ -64,12 +64,14 @@ export function dateSort(arr){
             sortedArr[a].id = (a+1);
         }
         console.log(prevObjIds);
+        return(sortedArr2);
     }
 }
 
-export function todoDelete(chosenId){
+export function todoDelete(chosenId, todoListDateObjArr){
     let curItem;
     let nextItem;
+    if (sortedArr2 == undefined) sortedArr2 = todoListDateObjArr;
     let chosenItem = sortedArr2[chosenId-1];
     sortedArr2.splice(chosenId-1, 1);
     document.getElementById(chosenId).remove();
@@ -80,10 +82,10 @@ export function todoDelete(chosenId){
         sortedArr2[index].prevId = chosenItem.prevId;
         let curEl = document.getElementById(index+2);
         curEl.id = index+1;
-
         console.log(index);
         console.log(sortedArr2);
         chosenItem=nextItem;
         curEl.style.gridRow = (curEl.id)
+        console.log(sortedArr2)
     }
 }
