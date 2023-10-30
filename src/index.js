@@ -27,8 +27,9 @@ export function todoDateObj(id, prevId, fullDate, currentDate){
 let sortedArr;
 let sortedArr2;
 
-export function dateSort(arr, unsort){
+export function dateSort(arr, unsort, timeFilter, timeNow){
     sortedArr = [];
+    console.log(timeNow);
     if (arr.length > 0){
         for(let i=0;i<arr.length;i++){
             if(sortedArr.length == 0){
@@ -70,10 +71,18 @@ export function dateSort(arr, unsort){
             currentObj.classList.add(`obj${a+1}`);
             currentObj.id = undefined;
         }
+        let filterCount = 0;
         for(let a=0; a<sortedArr.length;a++){
             currentObj = document.querySelector(`.obj${a+1}`);
             currentObj.classList.remove(`obj${a+1}`);
-            currentObj.id = (a+1);
+            if(timeFilter == 'day' && ((sortedArr[a].fullDate)) < (timeNow - 86400000) || ((sortedArr[a].fullDate)) > (timeNow + 86400000)){
+                currentObj.style.display = 'none';
+                sortedArr[a].id = null;
+                currentObj.style.gridRow = 'none';
+                filterCount++;
+                continue;
+            }
+            currentObj.id = ((a-filterCount)+1);
             currentObj.style.gridRow = currentObj.id;
             sortedArr[a].id = (a+1);
         }

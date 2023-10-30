@@ -53,7 +53,8 @@ export function component() {
                     if(unsort == true){
                         unsort = false;
                         document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
-                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+                        let date = new Date();
+                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort, 'day', date.getTime());
                     }
                     else if(unsort == false){
                         unsort = true;
