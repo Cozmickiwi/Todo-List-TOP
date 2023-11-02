@@ -6,13 +6,14 @@ import { dateSort } from './index.js';
 import { todoDelete } from './index.js';
 import './style.css';
 import CloseIcon from './images/close-circle-svgrepo-com1.png';
-import MoreIcon from './images/more-horizontal-circle-svgrepo-com.png'
+import MoreIcon from './images/more-horizontal-circle-svgrepo-com.png';
 const root = document.documentElement;
 export function component() {
     let currentlySorted = false;
     let ticker = 1;
     let todoListArr = [];
     let todoListDateObjArr = [];
+    let todayTodoArr = [];
     let currentEl;
     let fullDateStr;
     let unForDate;
@@ -28,7 +29,6 @@ export function component() {
     function menuItems(){
         function sort(){
             const sort = document.createElement('div');
-            
             sort.id = 'sort';
             sort.className = 'menuItem';
             const sortText = document.createElement('h4');
@@ -54,23 +54,42 @@ export function component() {
                         unsort = false;
                         document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
                         let date = new Date();
-                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort, 'day', date.getTime());
+                        let timeNow = date.getTime();
+                        todayTodoArr = [];
+                        for(let i=0; i<todoListDateObjArr.length; i++){
+                            if((todoListDateObjArr[i].fullDate) >= (timeNow - 86400000) && ((todoListDateObjArr[i].fullDate)) <= (timeNow + 86400000)){
+                                todayTodoArr.push(todoListDateObjArr[i]);
+                            }
+                            else{
+                                document.getElementById(todoListDateObjArr[i].id).style.display = 'none';
+                                document.getElementById(todoListDateObjArr[i].id).style.gridRow = undefined;
+                                document.getElementById(todoListDateObjArr[i].id).id = undefined;
+                                ticker--;
+                            }
+                        }
+                        todayTodoArr = dateSort(todayTodoArr, unsort);
                     }
                     else if(unsort == false){
                         unsort = true;
+                        for(let i=0; i<todoListDateObjArr.length; i++){
+                            console.log((todoListDateObjArr[i].element).id);
+                            if((todoListDateObjArr[i].element).id == 'undefined'){
+                                (todoListDateObjArr[i].element).id = Number(ticker);
+                                ticker++;
+                            }
+                        }
                         document.getElementById('sortDateButton').style.backgroundColor = '#ffa07a';
                         todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
                         currentlySorted = false;
                     }
-                })
+                });
                 document.getElementById('sortMenuExit').addEventListener('click', () => {
                     document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
                     document.querySelector('.sortMenu').classList.toggle('sortMenuCloseTran');
                     sortArrow.classList.toggle('arrowRotate');
                     sortMenuOpen = false;
-                })
+                });
             }, 100);
-            
             return(sort);
         }
         function home(){
@@ -158,7 +177,7 @@ export function component() {
     mainContainer.appendChild(todoItemContainer);
     const form = document.querySelector('.newTodo');
     form.style.display = "none";
-    function todoForm() {
+    function todoForm(){
         let titleInput = document.getElementById('todoTitle');
         let descriptionInput = document.getElementById('todoDescription');
         let dateInput = document.getElementById('todoDate');
@@ -222,16 +241,16 @@ export function component() {
                 let todoMainTitle = document.createElement('h3');
                 todoMainTitle.textContent = 'Title:';
                 let todoMainDescription = document.createElement('h3');
-                todoMainDescription.textContent = 'Description:'
+                todoMainDescription.textContent = 'Description:';
                 let todoMainDate = document.createElement('h3');
-                todoMainDate.textContent = 'Date/Time:'
+                todoMainDate.textContent = 'Date/Time:';
                 todoEntryContainer.appendChild(todoMainTitle);
                 todoEntryContainer.appendChild(todoEntryTitleMain);
                 todoEntryContainer.appendChild(todoMainDescription);
                 todoEntryContainer.appendChild(todoEntryDescriptionMain);
                 todoEntryContainer.appendChild(todoMainDate);
                 todoEntryContainer.appendChild(todoEntryDateMain);
-                todoItemContainer.appendChild(todoEntryContainer)
+                todoItemContainer.appendChild(todoEntryContainer);
                 todoEntryContainer.style.display = 'none';
                 todoEntryContainer.style.gridRow = ticker;
                 todoEntryContainer.style.gridColumn = 2;
@@ -243,7 +262,7 @@ export function component() {
                 currentEl = document.getElementById(ticker);
                 unForDate = (currentEl.querySelector('.todoEntryDate').textContent);
                 console.log(unForDate);
-                function dateFormat(filteredDate) {
+                /*function dateFormat(filteredDate) {
                     if (filteredDate) {
                         let filteredStr = filteredDate.join('');
                         console.log(filteredStr);
@@ -252,11 +271,10 @@ export function component() {
                     else {
                         console.log('no date');
                     }
-                }
-                //dateFormat(unForDate.match(dateFormatRegex))
+                }*/
                 const setDate = new Date(unForDate);
                 const date = new Date(); 
-                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime());
+                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime(), document.getElementById(Number(ticker)));
                 todoListDateObjArr[ticker-1] = Object[`tododateObj${ticker}`];
                 console.log(todoListDateObjArr);
                 ticker ++;
@@ -293,24 +311,32 @@ export function component() {
                         todoEntryPreview.classList.toggle('previewTranRev');
                         todoEntryContainer.classList.toggle('mainTranRev');
                     }, 1050);
-                })
+                });
                 todoClose.addEventListener('click', () => {
                     ticker--
                     console.log(todoListArr);
                     todoDelete(Number(todoEntryPreview.id), todoListDateObjArr);
-                })
+                    for(let i=0; i<todayTodoArr.length; i++){
+                        if(todayTodoArr[i].element == todoEntryPreview){
+                            todayTodoArr.splice(i,1);
+                        }
+                    }
+                    for(let i=0; i<todoListDateObjArr.length; i++){
+                        if(todoListDateObjArr[i].element == todoEntryPreview){
+                            todoListDateObjArr.splice(i,1);
+                        }
+                    }
+                });
                 function formReset(){
                     titleInput.value = null;
                     descriptionInput.value = null;
                     dateInput.value = null;
                 }
                 formReset();
-                
                 todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
-                
                 return(todoEntryPreview);
             }
-        })
+        });
     }
     todoForm();
     function button(){
@@ -328,7 +354,7 @@ export function component() {
             }
             console.log(form.style.display);
             newNote();
-        })
+        });
         return(newNoteButton);
     }
     function docAppend(){

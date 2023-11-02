@@ -4,10 +4,6 @@ export function newNote() {
 }
 import { component } from './design';
 component();
-function logic(){
-
-}
-
 export function createTodo(title, description, date, priority){
     return {
         title: title,
@@ -16,20 +12,20 @@ export function createTodo(title, description, date, priority){
         priority: priority,
     }
 }
-export function todoDateObj(id, prevId, fullDate, currentDate){
+export function todoDateObj(id, prevId, fullDate, currentDate, element){
     return {
         id: id,
         prevId: prevId,
         fullDate: fullDate,
         currentDate: currentDate,
+        element: element,
     }
 }
 let sortedArr;
 let sortedArr2;
 
-export function dateSort(arr, unsort, timeFilter, timeNow){
+export function dateSort(arr, unsort){
     sortedArr = [];
-    console.log(timeNow);
     if (arr.length > 0){
         for(let i=0;i<arr.length;i++){
             if(sortedArr.length == 0){
@@ -41,23 +37,22 @@ export function dateSort(arr, unsort, timeFilter, timeNow){
                         if(arr[i].fullDate<=sortedArr[x].fullDate){
                             sortedArr.splice(x, 0, arr[i]);
                             break;
-                    }
+                        }
                         else if(arr[i].fullDate>(sortedArr[sortedArr.length-1].fullDate)){
                             sortedArr.push(arr[i]);
                             break;
-                    }
+                        }
                     }
                     else if(unsort == true){
                         if(arr[i].currentDate<=sortedArr[x].currentDate){
                             sortedArr.splice(x, 0, arr[i]);
                             break;
-                    }
+                        }
                         else if(arr[i].currentDate>(sortedArr[sortedArr.length-1].currentDate)){
                             sortedArr.push(arr[i]);
                             break;
+                        }
                     }
-                    }
-                    
                 }
             }
         }
@@ -67,30 +62,22 @@ export function dateSort(arr, unsort, timeFilter, timeNow){
         let prevObjIds = [];
         for(let a=0; a<sortedArr.length;a++){
             prevObjIds[a] = sortedArr[a].id;
-            currentObj = document.getElementById(prevObjIds[a]);
+            currentObj = arr[a].element;
             currentObj.classList.add(`obj${a+1}`);
             currentObj.id = undefined;
         }
-        let filterCount = 0;
         for(let a=0; a<sortedArr.length;a++){
-            currentObj = document.querySelector(`.obj${a+1}`);
+            currentObj = arr[a].element;
             currentObj.classList.remove(`obj${a+1}`);
-            if(timeFilter == 'day' && ((sortedArr[a].fullDate)) < (timeNow - 86400000) || ((sortedArr[a].fullDate)) > (timeNow + 86400000)){
-                currentObj.style.display = 'none';
-                sortedArr[a].id = null;
-                currentObj.style.gridRow = 'none';
-                filterCount++;
-                continue;
-            }
-            currentObj.id = ((a-filterCount)+1);
+            currentObj.id = (a+1);
             currentObj.style.gridRow = currentObj.id;
+            currentObj.style.display = 'grid';
             sortedArr[a].id = (a+1);
         }
         console.log(prevObjIds);
         return(sortedArr2);
     }
 }
-
 export function todoDelete(chosenId, todoListDateObjArr){
     let curItem;
     let nextItem;
@@ -108,7 +95,7 @@ export function todoDelete(chosenId, todoListDateObjArr){
         console.log(index);
         console.log(sortedArr2);
         chosenItem=nextItem;
-        curEl.style.gridRow = (curEl.id)
-        console.log(sortedArr2)
+        curEl.style.gridRow = (curEl.id);
+        console.log(sortedArr2);
     }
 }
