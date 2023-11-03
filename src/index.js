@@ -67,12 +67,13 @@ export function dateSort(arr, unsort){
             currentObj.id = undefined;
         }
         for(let a=0; a<sortedArr.length;a++){
-            currentObj = arr[a].element;
-            currentObj.classList.remove(`obj${a+1}`);
+            currentObj = arr[a];
+            (currentObj.element).classList.remove(`obj${a+1}`);
+            (currentObj.element).id = (a+1);
+            (currentObj.element).style.gridRow = (currentObj.element).id;
+            (currentObj.element).style.display = 'grid';
             currentObj.id = (a+1);
-            currentObj.style.gridRow = currentObj.id;
-            currentObj.style.display = 'grid';
-            sortedArr[a].id = (a+1);
+            sortedArr2[a] = currentObj;
         }
         console.log(prevObjIds);
         return(sortedArr2);

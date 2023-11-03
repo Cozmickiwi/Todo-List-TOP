@@ -19,6 +19,7 @@ export function component() {
     let unForDate;
     let dateFormatRegex = /[^T:-]/g;
     let unsort = true;
+    let currentFilter = 'none';
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -26,6 +27,23 @@ export function component() {
     todoItemContainer.appendChild(menu);
     menu.style.gridRow = '1 / -1';
     menu.style.gridColumn = '1';
+    function todayFilter(){
+        let date = new Date();
+        let timeNow = date.getTime();
+        todayTodoArr = [];
+        for(let i=0; i<todoListDateObjArr.length; i++){
+            if((todoListDateObjArr[i].fullDate) >= (timeNow - 86400000) && ((todoListDateObjArr[i].fullDate)) <= (timeNow + 86400000)){
+                todayTodoArr.push(todoListDateObjArr[i]);
+            }
+            else{
+                (todoListDateObjArr[i].element).style.display = 'none';
+                (todoListDateObjArr[i].element).style.gridRow = undefined;
+                (todoListDateObjArr[i].element).id = undefined;
+                ticker--;
+            }
+        }
+        todayTodoArr = dateSort(todayTodoArr, unsort);
+    }
     function menuItems(){
         function sort(){
             const sort = document.createElement('div');
@@ -52,6 +70,7 @@ export function component() {
                     currentlySorted = true;
                     if(unsort == true){
                         unsort = false;
+                        currentFilter = 'today';
                         document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
                         let date = new Date();
                         let timeNow = date.getTime();
@@ -61,9 +80,9 @@ export function component() {
                                 todayTodoArr.push(todoListDateObjArr[i]);
                             }
                             else{
-                                document.getElementById(todoListDateObjArr[i].id).style.display = 'none';
-                                document.getElementById(todoListDateObjArr[i].id).style.gridRow = undefined;
-                                document.getElementById(todoListDateObjArr[i].id).id = undefined;
+                                (todoListDateObjArr[i].element).style.display = 'none';
+                                (todoListDateObjArr[i].element).style.gridRow = undefined;
+                                (todoListDateObjArr[i].element).id = undefined;
                                 ticker--;
                             }
                         }
@@ -71,11 +90,13 @@ export function component() {
                     }
                     else if(unsort == false){
                         unsort = true;
+                        currentFilter = 'none';
                         for(let i=0; i<todoListDateObjArr.length; i++){
                             console.log((todoListDateObjArr[i].element).id);
                             if((todoListDateObjArr[i].element).id == 'undefined'){
-                                (todoListDateObjArr[i].element).id = Number(ticker);
                                 ticker++;
+                                (todoListDateObjArr[i].element).id = Number(ticker);
+                                
                             }
                         }
                         document.getElementById('sortDateButton').style.backgroundColor = '#ffa07a';
@@ -275,7 +296,7 @@ export function component() {
                 const setDate = new Date(unForDate);
                 const date = new Date(); 
                 Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime(), document.getElementById(Number(ticker)));
-                todoListDateObjArr[ticker-1] = Object[`tododateObj${ticker}`];
+                todoListDateObjArr.push(Object[`tododateObj${ticker}`]);
                 console.log(todoListDateObjArr);
                 ticker ++;
                 todoMore.addEventListener('mouseup', () => {
@@ -333,7 +354,19 @@ export function component() {
                     dateInput.value = null;
                 }
                 formReset();
-                todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+                if(currentFilter == 'none'){
+                    for(let i=0; i<todoListDateObjArr.length; i++){
+                        console.log((todoListDateObjArr[i].element).id);
+                        if((todoListDateObjArr[i].element).id == 'undefined'){
+                            (todoListDateObjArr[i].element).id = Number(ticker);
+                            ticker++;
+                        }
+                    }
+                    todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+                }
+                else if(currentFilter == 'today'){
+                    todayFilter();
+                }
                 return(todoEntryPreview);
             }
         });
