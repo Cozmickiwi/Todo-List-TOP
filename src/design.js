@@ -103,44 +103,7 @@ export function component() {
             });
             setTimeout(() => {
                 document.getElementById('sortDateButton').addEventListener('click', () => {
-                    currentlySorted = true;
-                    if(unsort == true){
-                        unsort = false;
-                        //currentFilter = 'today';
-                        document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
-                        let date = new Date();
-                        let timeNow = date.getTime();
-                        //todayTodoArr = [];
-                        /*
-                        for(let i=0; i<todoListDateObjArr.length; i++){
-                            if((todoListDateObjArr[i].fullDate) >= (timeNow - 86400000) && ((todoListDateObjArr[i].fullDate)) <= (timeNow + 86400000)){
-                                todayTodoArr.push(todoListDateObjArr[i]);
-                            }
-                            else{
-                                (todoListDateObjArr[i].element).style.display = 'none';
-                                (todoListDateObjArr[i].element).style.gridRow = undefined;
-                                (todoListDateObjArr[i].element).id = undefined;
-                                ticker--;
-                            }
-                        }
-                        */
-                        //todayTodoArr = dateSort(todayTodoArr, unsort);
-                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
-                    }
-                    else if(unsort == false){
-                        unsort = true;
-                        currentFilter = 'none';
-                        for(let i=0; i<todoListDateObjArr.length; i++){
-                            console.log((todoListDateObjArr[i].element).id);
-                            if((todoListDateObjArr[i].element).id == 'undefined'){
-                                ticker++;
-                                (todoListDateObjArr[i].element).id = Number(ticker);
-                            }
-                        }
-                        document.getElementById('sortDateButton').style.backgroundColor = '#ffa07a';
-                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
-                        currentlySorted = false;
-                    }
+                    mainSort();
                 });
                 document.getElementById('sortMenuExit').addEventListener('click', () => {
                     document.querySelector('.sortMenu').classList.toggle('sortMenuTran');
@@ -239,6 +202,28 @@ export function component() {
     mainContainer.appendChild(todoItemContainer);
     const form = document.querySelector('.newTodo');
     form.style.display = "none";
+    function mainSort(){
+        currentlySorted = true;
+        if(unsort == true){
+            unsort = false;
+            document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
+            todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+        }
+        else if(unsort == false){
+            unsort = true;
+            currentFilter = 'none';
+            for(let i=0; i<todoListDateObjArr.length; i++){
+                console.log((todoListDateObjArr[i].element).id);
+                if((todoListDateObjArr[i].element).id == 'undefined'){
+                    ticker++;
+                    (todoListDateObjArr[i].element).id = Number(ticker);
+                }
+            }
+            document.getElementById('sortDateButton').style.backgroundColor = '#ffa07a';
+            todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
+            currentlySorted = false;
+        }
+    }
     function todoForm(){
         let titleInput = document.getElementById('todoTitle');
         let descriptionInput = document.getElementById('todoDescription');
@@ -453,6 +438,11 @@ export function component() {
     month.addEventListener('click', () => {
         currentFilter = 'month';
         monthFilter();
+    })
+    home.addEventListener('click', () => {
+        currentFilter = 'none';
+        unsort = false;
+        mainSort();
     })
     return(mainContainer);
 }
