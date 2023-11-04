@@ -67,7 +67,7 @@ export function dateSort(arr, unsort){
             currentObj.id = undefined;
         }
         for(let a=0; a<sortedArr.length;a++){
-            currentObj = arr[a];
+            currentObj = sortedArr[a];
             (currentObj.element).classList.remove(`obj${a+1}`);
             (currentObj.element).id = (a+1);
             (currentObj.element).style.gridRow = (currentObj.element).id;

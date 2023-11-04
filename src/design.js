@@ -14,6 +14,8 @@ export function component() {
     let todoListArr = [];
     let todoListDateObjArr = [];
     let todayTodoArr = [];
+    let weekTodoArr = [];
+    let monthTodoArr = [];
     let currentEl;
     let fullDateStr;
     let unForDate;
@@ -44,6 +46,40 @@ export function component() {
         }
         todayTodoArr = dateSort(todayTodoArr, unsort);
     }
+    function weekFilter(){
+        let date = new Date();
+        let timeNow = date.getTime();
+        weekTodoArr = [];
+        for(let i=0; i<todoListDateObjArr.length; i++){
+            if((todoListDateObjArr[i].fullDate) >= (timeNow - 604800000) && ((todoListDateObjArr[i].fullDate)) <= (timeNow + 604800000)){
+                weekTodoArr.push(todoListDateObjArr[i]);
+            }
+            else{
+                (todoListDateObjArr[i].element).style.display = 'none';
+                (todoListDateObjArr[i].element).style.gridRow = undefined;
+                (todoListDateObjArr[i].element).id = undefined;
+                ticker--;
+            }
+        }
+        weekTodoArr = dateSort(weekTodoArr, unsort);
+    }
+    function monthFilter(){
+        let date = new Date();
+        let timeNow = date.getTime();
+        monthTodoArr = [];
+        for(let i=0; i<todoListDateObjArr.length; i++){
+            if((todoListDateObjArr[i].fullDate) >= (timeNow - 2629746000) && ((todoListDateObjArr[i].fullDate)) <= (timeNow + 2629746000)){
+                monthTodoArr.push(todoListDateObjArr[i]);
+            }
+            else{
+                (todoListDateObjArr[i].element).style.display = 'none';
+                (todoListDateObjArr[i].element).style.gridRow = undefined;
+                (todoListDateObjArr[i].element).id = undefined;
+                ticker--;
+            }
+        }
+        monthTodoArr = dateSort(monthTodoArr, unsort);
+    }
     function menuItems(){
         function sort(){
             const sort = document.createElement('div');
@@ -70,11 +106,12 @@ export function component() {
                     currentlySorted = true;
                     if(unsort == true){
                         unsort = false;
-                        currentFilter = 'today';
+                        //currentFilter = 'today';
                         document.getElementById('sortDateButton').style.backgroundColor = '#90ee90';
                         let date = new Date();
                         let timeNow = date.getTime();
-                        todayTodoArr = [];
+                        //todayTodoArr = [];
+                        /*
                         for(let i=0; i<todoListDateObjArr.length; i++){
                             if((todoListDateObjArr[i].fullDate) >= (timeNow - 86400000) && ((todoListDateObjArr[i].fullDate)) <= (timeNow + 86400000)){
                                 todayTodoArr.push(todoListDateObjArr[i]);
@@ -86,7 +123,9 @@ export function component() {
                                 ticker--;
                             }
                         }
-                        todayTodoArr = dateSort(todayTodoArr, unsort);
+                        */
+                        //todayTodoArr = dateSort(todayTodoArr, unsort);
+                        todoListDateObjArr = dateSort(todoListDateObjArr, unsort);
                     }
                     else if(unsort == false){
                         unsort = true;
@@ -96,7 +135,6 @@ export function component() {
                             if((todoListDateObjArr[i].element).id == 'undefined'){
                                 ticker++;
                                 (todoListDateObjArr[i].element).id = Number(ticker);
-                                
                             }
                         }
                         document.getElementById('sortDateButton').style.backgroundColor = '#ffa07a';
@@ -130,6 +168,7 @@ export function component() {
             todayText.textContent = 'Today';
             today.appendChild(todayText);
             return(today);
+            
         }
         function week(){
             const week = document.createElement('div');
@@ -190,8 +229,10 @@ export function component() {
             menu.appendChild(projects());
             menu.appendChild(notes());
             menu.appendChild(sortMenu());
+            
         }
         menuAppend();
+        
     }
     menuItems();
     todoItemContainer.className = 'todoItemContainer';
@@ -272,13 +313,14 @@ export function component() {
                 todoEntryContainer.appendChild(todoMainDate);
                 todoEntryContainer.appendChild(todoEntryDateMain);
                 todoItemContainer.appendChild(todoEntryContainer);
+                ticker = (todoListDateObjArr.length +1);
                 todoEntryContainer.style.display = 'none';
                 todoEntryContainer.style.gridRow = ticker;
                 todoEntryContainer.style.gridColumn = 2;
                 todoEntryPreview.style.gridColumn = 2;
                 todoEntryPreview.id = Number(ticker);
                 todoEntryPreview.style.gridRow = todoEntryPreview.id;
-                todoListArr[ticker-1] = ticker;
+                todoListArr.push(ticker);
                 console.log(todoListArr);
                 currentEl = document.getElementById(ticker);
                 unForDate = (currentEl.querySelector('.todoEntryDate').textContent);
@@ -298,7 +340,7 @@ export function component() {
                 Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime(), document.getElementById(Number(ticker)));
                 todoListDateObjArr.push(Object[`tododateObj${ticker}`]);
                 console.log(todoListDateObjArr);
-                ticker ++;
+                //ticker ++;
                 todoMore.addEventListener('mouseup', () => {
                     todoEntryPreview.classList.toggle('previewTran');
                     setTimeout(() => {
@@ -367,6 +409,12 @@ export function component() {
                 else if(currentFilter == 'today'){
                     todayFilter();
                 }
+                else if(currentFilter == 'week'){
+                    weekFilter();
+                }
+                else if(currentFilter == 'month'){
+                    monthFilter();
+                }
                 return(todoEntryPreview);
             }
         });
@@ -394,5 +442,17 @@ export function component() {
         mainContainer.appendChild(button());
     }
     docAppend();
+    document.getElementById('today').addEventListener('click', () => {
+        currentFilter = 'today';
+        todayFilter();
+    })
+    week.addEventListener('click', () => {
+        currentFilter = 'week';
+        weekFilter();
+    })
+    month.addEventListener('click', () => {
+        currentFilter = 'month';
+        monthFilter();
+    })
     return(mainContainer);
 }
