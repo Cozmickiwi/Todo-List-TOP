@@ -4,6 +4,7 @@ import { createTodo } from './index.js';
 import { todoDateObj } from './index.js';
 import { dateSort } from './index.js';
 import { todoDelete } from './index.js';
+import { projectObj } from './index.js';
 import './style.css';
 import CloseIcon from './images/close-circle-svgrepo-com1.png';
 import MoreIcon from './images/more-horizontal-circle-svgrepo-com.png';
@@ -22,6 +23,7 @@ export function component() {
     let dateFormatRegex = /[^T:-]/g;
     let unsort = true;
     let currentFilter = 'none';
+    let projectCount = 1;
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -183,6 +185,62 @@ export function component() {
             sortMenu.appendChild(exitButton);
             return(sortMenu);
         }
+        function projectMenu(){
+            projectMenu = document.createElement('div');
+            projectMenu.className = 'projectMenu';
+            todoItemContainer.appendChild(projectMenu);
+            const newProject = document.createElement('div');
+            newProject.className = 'newProjectButton';
+            newProject.textContent = 'New';
+            projectMenu.appendChild(newProject);
+            const projectContainer = document.createElement('div');
+            projectContainer.className = 'projectContainer';
+            projectMenu.appendChild(projectContainer);
+            const projectForm = document.createElement('form');
+            function projectItem(){
+                projectForm.className = 'projectForm';
+                const projectTitle = document.createElement('input');
+                projectTitle.className = 'projectTitle';
+                projectTitle.setAttribute('type', 'text');
+                projectTitle.setAttribute('name', 'projectTitle');
+                projectTitle.setAttribute('required', '');
+                projectTitle.setAttribute('placeholder', 'Title:');
+                projectTitle.id = 'projectTitle';
+                projectForm.appendChild(projectTitle);
+                todoItemContainer.appendChild(projectForm);
+                const projectCancel = document.createElement('button');
+                projectCancel.setAttribute('type', 'button');
+                projectCancel.textContent = 'Cancel';
+                projectCancel.style.gridColumn = '2';
+                projectForm.appendChild(projectCancel);
+                projectCancel.addEventListener('click', () => {
+                    projectForm.style.display = 'none';
+                    projectTitle.value = null;
+                })
+                const projectSubmit = document.createElement('button');
+                projectSubmit.setAttribute('type', 'submit');
+                projectSubmit.textContent = 'Submit';
+                projectSubmit.style.gridColumn = '5'
+                projectForm.appendChild(projectSubmit);
+            }
+            projectForm.addEventListener('submit', event =>{
+                event.preventDefault();
+                Object[`project${projectCount}`] = projectObj(document.getElementById('projectTitle').value);
+                document.getElementById('projectTitle').value = null;
+                document.querySelector('.projectForm').style.display = 'none';
+                console.log(Object[`project${projectCount}`]);
+                let project = document.createElement('div');
+                project.className = 'project';
+                let projectText = document.createElement('p');
+                projectText.textContent = Object[`project${projectCount}`].title;
+                project.appendChild(projectText);
+                projectContainer.appendChild(project);
+            })
+            newProject.addEventListener('click', () => {
+                projectForm.style.display = 'grid';
+            })
+            projectItem();
+        }
         function menuAppend () {
             menu.appendChild(sort());
             menu.appendChild(home());
@@ -192,7 +250,7 @@ export function component() {
             menu.appendChild(projects());
             menu.appendChild(notes());
             menu.appendChild(sortMenu());
-            
+            projectMenu();
         }
         menuAppend();
         
@@ -301,8 +359,8 @@ export function component() {
                 ticker = (todoListDateObjArr.length +1);
                 todoEntryContainer.style.display = 'none';
                 todoEntryContainer.style.gridRow = ticker;
-                todoEntryContainer.style.gridColumn = 2;
-                todoEntryPreview.style.gridColumn = 2;
+                //todoEntryContainer.style.gridColumn = 2;
+                //todoEntryPreview.style.gridColumn = 2;
                 todoEntryPreview.id = Number(ticker);
                 todoEntryPreview.style.gridRow = todoEntryPreview.id;
                 todoListArr.push(ticker);

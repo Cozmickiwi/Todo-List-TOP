@@ -21,6 +21,11 @@ export function todoDateObj(id, prevId, fullDate, currentDate, element){
         element: element,
     }
 }
+export function projectObj(title){
+    return {
+        title: title,
+    }
+}
 let sortedArr;
 let sortedArr2;
 

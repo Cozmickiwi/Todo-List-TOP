@@ -13,6 +13,69 @@ body {
     justify-content: center;
 }
 
+.projectForm {
+    position: absolute;
+    width: 50%;
+    right: 0;
+    left: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 140px;
+    z-index: 6;
+    display: none;
+    grid-template: 1fr 1.2fr / repeat(6, 1fr);
+    background-color: rgb(144, 198, 198);
+    overflow: hidden;
+    border: 2px solid;
+    border-radius: 5px;
+    
+}
+
+.projectForm > button {
+    height: 60%;
+    align-self: center;
+}
+
+.project {
+    height: 20px;
+    background-color: aliceblue;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .85em;
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow: hidden;
+    padding: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    box-shadow: 2px 2px black;
+}
+
+.project > p {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.projectContainer {
+    grid-row: 2;
+    height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.projectTitle {
+    background-color: rgba(167, 209, 194, 0.665);
+    border: 2px;
+    width: 100%;
+    height: 30px;
+    grid-column: 1 / -1;
+    padding: 0;
+    padding-left: 10px;
+}
+
 .todoItemContainer {
     width: 70%;
     height: 65%;
@@ -23,10 +86,10 @@ body {
     border-radius: 15px;
     border: 2px solid rgb(67, 108, 145);
     grid-template-rows: repeat(10, 1fr);
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 1fr 3fr;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 10px 0px;
     overflow: hidden;
 }
 
@@ -93,6 +156,40 @@ body {
     border-bottom-right-radius: 10px;
     display: none;
     grid-template: repeat(3, 1fr) / 1fr repeat(2, 2fr) .4fr;
+}
+
+.projectMenu{
+    grid-column: 2;
+    grid-row: 1 / -1;
+    width: 20%;
+    background-color: #efce57;
+    height: 100%;
+    position: absolute;
+    z-index: 5;
+    display: grid;
+    grid-template: .3fr 8fr 1fr / 1fr;
+}
+
+.newProjectButton{
+    grid-row: 3;
+    width: 50%;
+    height: 50%;
+    border-radius: 5px;
+    align-self: center;
+    justify-self: center;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid;
+    box-shadow: 2px 2px black;
+    user-select: none;
+}
+
+.newProjectButton:active{
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 1px 1px black;
 }
 
 #sortDateButton {
@@ -192,6 +289,7 @@ body {
     overflow: hidden;
     align-items: center;
     user-select: none;
+    grid-column: 2 / 4;
 }
 
 .todoPreview > p {
@@ -273,6 +371,7 @@ body {
     border-radius: 10px;
     box-shadow: 3px 2px black;
     font-family: Arial, Helvetica, sans-serif;
+    grid-column: 2 / 4;
     /*
     top: 0; 
     bottom: 0; 
@@ -308,7 +407,7 @@ legend {
     z-index: 2;
 }
 
-input:not(.radio) {
+input:not(.radio, .projectTitle) {
     border: 0px solid;
     border-radius: 5px;
     box-shadow: inset rgba(103, 103, 103, 0.09) 0px 3px 8px;
