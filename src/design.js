@@ -24,6 +24,8 @@ export function component() {
     let unsort = true;
     let currentFilter = 'none';
     let projectCount = 1;
+    let projectMenuOpen = false;
+    let projectList = [];
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -193,6 +195,10 @@ export function component() {
             newProject.className = 'newProjectButton';
             newProject.textContent = 'New';
             projectMenu.appendChild(newProject);
+            const pMenuClose = new Image;
+            pMenuClose.src = CloseIcon;
+            pMenuClose.className = 'pMenuClose';
+            projectMenu.appendChild(pMenuClose);
             const projectContainer = document.createElement('div');
             projectContainer.className = 'projectContainer';
             projectMenu.appendChild(projectContainer);
@@ -241,6 +247,7 @@ export function component() {
             })
             projectItem();
         }
+
         function menuAppend () {
             menu.appendChild(sort());
             menu.appendChild(home());
@@ -485,6 +492,21 @@ export function component() {
         mainContainer.appendChild(button());
     }
     docAppend();
+    function projectMenuTran(){
+        if(projectMenuOpen == false){
+            document.querySelector('.projectMenu').classList.toggle('pOpenTran');
+            projectMenuOpen = true;
+        }
+        else if(projectMenuOpen == true){
+            document.querySelector('.projectMenu').classList.toggle('pOpenTran');
+            document.querySelector('.projectMenu').classList.toggle('pCloseTran');
+            projectMenuOpen = 'initialized';
+        }
+        else{
+            document.querySelector('.projectMenu').classList.toggle('pOpenTran');
+            document.querySelector('.projectMenu').classList.toggle('pCloseTran');
+        }
+    }
     document.getElementById('today').addEventListener('click', () => {
         currentFilter = 'today';
         todayFilter();
@@ -501,6 +523,12 @@ export function component() {
         currentFilter = 'none';
         unsort = false;
         mainSort();
+    })
+    projects.addEventListener('click', () => {
+        projectMenuTran();
+    })
+    document.querySelector('.pMenuClose').addEventListener('click', () => {
+        projectMenuTran();
     })
     return(mainContainer);
 }
