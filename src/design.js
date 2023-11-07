@@ -14,6 +14,7 @@ export function component() {
     let ticker = 1;
     let todoListArr = [];
     let todoListDateObjArr = [];
+    let todoListDateObjArrCopy = [];
     let todayTodoArr = [];
     let weekTodoArr = [];
     let monthTodoArr = [];
@@ -26,6 +27,8 @@ export function component() {
     let projectCount = 1;
     let projectMenuOpen = false;
     let projectList = [];
+    let projectTodos = [];
+    let currentProject = undefined;
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -247,6 +250,26 @@ export function component() {
                 projectSelect.appendChild(projectOption);
                 project.appendChild(projectText);
                 projectContainer.appendChild(project);
+                project.addEventListener('click', () => {
+                    currentProject = project.childNodes[0].textContent;
+                    todoListDateObjArrCopy = todoListDateObjArr;
+                    let projectTicker = 1;
+                    for(let i=0; i<todoListDateObjArr.length; i++){
+                        if(todoListDateObjArr[i].project != currentProject){
+                            todoListDateObjArr[i].element.style.display = 'none';
+                            todoListDateObjArr[i].element.id = undefined;
+                        }
+                        else{
+                            todoListDateObjArr[i].element.id = projectTicker;
+                            todoListDateObjArr[i].element.style.gridRow = projectTicker;
+                            projectTicker++;
+                            projectTodos.push(todoListDateObjArr[i]);
+                        }
+                        
+                    }
+                    todoListDateObjArr = projectTodos;
+                    sort();
+                })
             })
             newProject.addEventListener('click', () => {
                 projectForm.style.display = 'grid';
