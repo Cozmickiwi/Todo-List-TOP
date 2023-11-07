@@ -234,11 +234,17 @@ export function component() {
                 Object[`project${projectCount}`] = projectObj(document.getElementById('projectTitle').value);
                 document.getElementById('projectTitle').value = null;
                 document.querySelector('.projectForm').style.display = 'none';
-                console.log(Object[`project${projectCount}`]);
+                projectList.push(Object[`project${projectCount}`]);
+                console.log(projectList);
                 let project = document.createElement('div');
                 project.className = 'project';
                 let projectText = document.createElement('p');
                 projectText.textContent = Object[`project${projectCount}`].title;
+                const projectSelect = document.getElementById('projectSelect');
+                let projectOption = document.createElement('option');
+                projectOption.setAttribute('value', Object[`project${projectCount}`].title);
+                projectOption.textContent = Object[`project${projectCount}`].title;
+                projectSelect.appendChild(projectOption);
                 project.appendChild(projectText);
                 projectContainer.appendChild(project);
             })
@@ -296,6 +302,7 @@ export function component() {
         let priorityInputLow = document.getElementById('priorityRadio1');
         let priorityInputMed = document.getElementById('priorityRadio2');
         let priorityInputHigh = document.getElementById('priorityRadio3');
+        let projectInput = document.getElementById('projectSelect');
         const todoSubmit = document.querySelector('.submitButton');
         form.addEventListener('submit', event => {
             let prioritySelection;
@@ -314,7 +321,7 @@ export function component() {
             document.querySelector('.button').textContent = 'New';
             todoEntry();
             function todoEntry(){
-                let todoListing = createTodo(titleInput.value, descriptionInput.value, dateInput.value, prioritySelection);
+                let todoListing = createTodo(titleInput.value, descriptionInput.value, dateInput.value, prioritySelection, projectInput.value);
                 Object[`todoListing${ticker}`] = todoListing;
                 let todoEntryContainer = document.createElement('div');
                 let todoEntryPreview = document.createElement('div');
@@ -324,6 +331,7 @@ export function component() {
                 let todoEntryTitleMain = document.createElement('p');
                 let todoEntryDescriptionMain = document.createElement('p');
                 let todoEntryDateMain = document.createElement('p');
+                let todoEntryProjectMain = document.createElement('p');
                 let deleteButton = document.createElement('button');
                 deleteButton.className = 'todoItemDelete';
                 deleteButton.textContent = 'delete';
@@ -338,6 +346,7 @@ export function component() {
                 todoEntryDescriptionMain.textContent = todoListing.description;
                 todoEntryDateMain.textContent = todoListing.date;
                 todoEntryDate.textContent = todoListing.date;
+                todoEntryProjectMain.textContent = todoListing.project;
                 const todoClose = new Image();
                 const todoMore = new Image();
                 todoClose.src = CloseIcon;
@@ -356,12 +365,16 @@ export function component() {
                 todoMainDescription.textContent = 'Description:';
                 let todoMainDate = document.createElement('h3');
                 todoMainDate.textContent = 'Date/Time:';
+                let todoMainProject = document.createElement('h3');
+                todoMainProject.textContent = "Project:";
                 todoEntryContainer.appendChild(todoMainTitle);
                 todoEntryContainer.appendChild(todoEntryTitleMain);
                 todoEntryContainer.appendChild(todoMainDescription);
                 todoEntryContainer.appendChild(todoEntryDescriptionMain);
                 todoEntryContainer.appendChild(todoMainDate);
                 todoEntryContainer.appendChild(todoEntryDateMain);
+                todoEntryContainer.appendChild(todoMainProject);
+                todoEntryContainer.appendChild(todoEntryProjectMain);
                 todoItemContainer.appendChild(todoEntryContainer);
                 ticker = (todoListDateObjArr.length +1);
                 todoEntryContainer.style.display = 'none';
@@ -387,7 +400,7 @@ export function component() {
                 }*/
                 const setDate = new Date(unForDate);
                 const date = new Date(); 
-                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime(), document.getElementById(Number(ticker)));
+                Object [`tododateObj${ticker}`] = todoDateObj(ticker, ticker, setDate.getTime(), date.getTime(), document.getElementById(Number(ticker)), projectInput.value);
                 todoListDateObjArr.push(Object[`tododateObj${ticker}`]);
                 console.log(todoListDateObjArr);
                 //ticker ++;

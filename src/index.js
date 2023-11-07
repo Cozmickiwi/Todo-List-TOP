@@ -4,21 +4,23 @@ export function newNote() {
 }
 import { component } from './design';
 component();
-export function createTodo(title, description, date, priority){
+export function createTodo(title, description, date, priority, project){
     return {
         title: title,
         description: description,
         date: date,
         priority: priority,
+        project: project,
     }
 }
-export function todoDateObj(id, prevId, fullDate, currentDate, element){
+export function todoDateObj(id, prevId, fullDate, currentDate, element, project){
     return {
         id: id,
         prevId: prevId,
         fullDate: fullDate,
         currentDate: currentDate,
         element: element,
+        project: project,
     }
 }
 export function projectObj(title){

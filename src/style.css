@@ -51,6 +51,7 @@ body {
     border: 2px solid;
     border-radius: 5px;
     box-shadow: 2px 2px black;
+    user-select: none;
 }
 
 .project > p {
@@ -202,6 +203,14 @@ body {
         display: grid;
         transform: translateX(-300px);
     }
+}
+
+#projectSelect{
+    width: 30%;
+    position: relative;
+    left: 55%;
+    bottom: 14.5%;
+    height: 25px;
 }
 
 .newProjectButton{
