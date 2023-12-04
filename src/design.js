@@ -29,6 +29,7 @@ export function component() {
     let projectList = [];
     let projectTodos = [];
     let currentProject = undefined;
+    let projectActive = false;
     const mainContainer = document.querySelector('.mainContainer');
     const todoItemContainer = document.createElement('div');
     const menu = document.createElement('div');
@@ -268,6 +269,7 @@ export function component() {
                         
                     }
                     todoListDateObjArr = projectTodos;
+                    projectActive = true;
                     sort();
                 })
             })
@@ -558,6 +560,11 @@ export function component() {
     home.addEventListener('click', () => {
         currentFilter = 'none';
         unsort = false;
+        if(projectActive == true){
+            todoListDateObjArr = todoListDateObjArrCopy;
+            projectActive = false;
+        }
+
         mainSort();
     })
     projects.addEventListener('click', () => {
